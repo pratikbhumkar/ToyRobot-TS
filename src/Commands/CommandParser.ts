@@ -5,47 +5,44 @@ import { Robot } from "../Models/Robot";
 import { Response } from "../Models/Response";
 
 export function ParseCommand(command:any, robot:Robot): void {
-    let identifiedCommand = identifyCommand(command);
+    let identifiedCommand: string|boolean = identifyCommand(command);
     switch (identifiedCommand) {
         case Commands.PLACE:
             let placeCoordinates = command.match(/(\d[\d\.]*)/g)
             let placeDirection = command.match(/(NORTH$|SOUTH$|EAST$|WEST$)/g)
             let outcome = Place(placeCoordinates[0], placeCoordinates[1], placeDirection[0], robot)
-            if (!outcome.Success) {
-                console.log(outcome.Message)
-            }
+            displayErrorMessage(outcome)
             break;
+            
         case Commands.MOVE:
             let moveResponse:Response = Move(robot)
-            if (!moveResponse.Success) {
-                console.log(moveResponse.Message)
-            }
+            displayErrorMessage(moveResponse)
             break;
 
         case Commands.LEFT:
             let turnLeftResponse:Response = Turn(Directions.LEFT, robot)
-            if (!turnLeftResponse.Success) {
-                console.log(turnLeftResponse.Message)
-            }
+            displayErrorMessage(turnLeftResponse)
             break;
 
         case Commands.RIGHT:
             let turnRightResponse:Response = Turn(Directions.RIGHT, robot)
-            if (!turnRightResponse.Success) {
-                console.log(turnRightResponse.Message)
-            }
+            displayErrorMessage(turnRightResponse)
             break;
 
         case Commands.REPORT:
             let reportResponse:Response = Report(robot)
-            if (!reportResponse.Success) {
-                console.log(reportResponse.Message)
-            }
+            displayErrorMessage(reportResponse)
             break;
 
         default:
             console.log('Invalid Command')
             break;
+    }
+}
+
+function displayErrorMessage(response: Response): void{
+    if (!response.Success) {
+        console.log(response.Message)
     }
 }
 
