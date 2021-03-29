@@ -1,7 +1,8 @@
 import { Directions } from "../Models/Directions";
 import { Robot } from "../Models/Robot";
+import { Response } from "../Models/Response";
 
-export function Turn(direction:string, robot: Robot) {
+export function Turn(direction:string, robot: Robot): Response {
     if (robot.placed) {
         let directions = Object.keys(Directions);
         let currentDirectionIndex = directions.indexOf(robot.direction);
@@ -11,8 +12,8 @@ export function Turn(direction:string, robot: Robot) {
             currentDirectionIndex = (currentDirectionIndex - 1 + 4) % 4;
         }
         robot.direction = directions[currentDirectionIndex];
-        return { Success: true, robot: robot }
+        return new Response(true, "")
     } else {
-        return { Success: false, Message: "You need to place before you Turn." }
+        return new Response(false, "You need to place before you Turn.")
     }
 };

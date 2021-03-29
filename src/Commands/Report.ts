@@ -1,9 +1,11 @@
 import { Robot } from "../Models/Robot";
-export function Report(robot: Robot) {
+import { Response } from "../Models/Response";
+
+export function Report(robot: Robot): Response {
     if (robot.placed) {
         console.log(`Output: ${robot.x},${robot.y},${robot.direction}`)
-        return `Output: ${robot.x},${robot.y},${robot.direction}`;
+        return new Response(true, `Output: ${robot.x},${robot.y},${robot.direction}`)
     } else {
-        return { Success: false, Message: "You need to place before you Report." }
+        return new Response(false, "You need to place before you Report.")
     }
 };

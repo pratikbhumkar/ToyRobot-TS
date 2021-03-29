@@ -8,7 +8,7 @@ const readline = require('readline')
 		output: process.stdout
 	});
 
-function handleInput(line: string) {
+function handleInput(line: string): void {
 	ParseCommand(line, robot);
 }
 

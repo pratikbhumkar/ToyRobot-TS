@@ -2,8 +2,9 @@ import { Place, Report, Turn, Move } from "./index";
 import { Commands } from "../Models/Commands";
 import { Directions } from "../Models/Directions";
 import { Robot } from "../Models/Robot";
+import { Response } from "../Models/Response";
 
-export function ParseCommand(command:any, robot:Robot): any {
+export function ParseCommand(command:any, robot:Robot): void {
     let identifiedCommand = identifyCommand(command);
     switch (identifiedCommand) {
         case Commands.PLACE:
@@ -13,25 +14,33 @@ export function ParseCommand(command:any, robot:Robot): any {
             if (!outcome.Success) {
                 console.log(outcome.Message)
             }
-            return outcome;
-
+            break;
         case Commands.MOVE:
-            let output = Move(robot)
-            if (!output.Success) {
-                console.log(output.Message)
+            let moveResponse:Response = Move(robot)
+            if (!moveResponse.Success) {
+                console.log(moveResponse.Message)
             }
             break;
 
         case Commands.LEFT:
-            Turn(Directions.LEFT, robot)
+            let turnLeftResponse:Response = Turn(Directions.LEFT, robot)
+            if (!turnLeftResponse.Success) {
+                console.log(turnLeftResponse.Message)
+            }
             break;
 
         case Commands.RIGHT:
-            Turn(Directions.RIGHT, robot)
+            let turnRightResponse:Response = Turn(Directions.RIGHT, robot)
+            if (!turnRightResponse.Success) {
+                console.log(turnRightResponse.Message)
+            }
             break;
 
         case Commands.REPORT:
-            Report(robot)
+            let reportResponse:Response = Report(robot)
+            if (!reportResponse.Success) {
+                console.log(reportResponse.Message)
+            }
             break;
 
         default:
@@ -40,7 +49,7 @@ export function ParseCommand(command:any, robot:Robot): any {
     }
 }
 
-function identifyCommand(command: string) {
+function identifyCommand(command: string):string|boolean {
     if (/^MOVE$/.test(command)) {
         return Commands.MOVE;
     } else if (/^REPORT$/.test(command)) {

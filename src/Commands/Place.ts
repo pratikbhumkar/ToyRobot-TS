@@ -1,5 +1,7 @@
 import { Robot } from "../Models/Robot";
-export function Place(x:number, y:number, direction:string, robot:Robot) {
+import { Response } from "../Models/Response";
+
+export function Place(x:number, y:number, direction:string, robot:Robot): Response {
     x = Number(x)
     y = Number(y)
     if (x < 5 && x > -1 && y < 5 && y > -1) {
@@ -8,9 +10,9 @@ export function Place(x:number, y:number, direction:string, robot:Robot) {
         robot.direction = direction;
         if (!robot.placed) {
             robot.placed = true
-            return { Success: true, robot: robot };
+            return new Response(true, "")
         }
     } else {
-        return { Success: false, Message: "Cannot place outside the table" }
+        return new Response(false, "Cannot place outside the table")
     }
 };
