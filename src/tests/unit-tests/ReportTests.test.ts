@@ -4,7 +4,7 @@ import { Directions } from "../../Models/Directions";
 import { Response } from "../../Models/Response";
 
 describe('Unit Testing for REPORT command', () => {
-    test('Test if the REPORT command works as expected for a Placed robot', () => {
+    test('Test if the REPORT command works as expected for an Placed robot', () => {
         let robot = new Robot(5);
         robot.placed = true;
         robot.x = 0;
@@ -15,7 +15,7 @@ describe('Unit Testing for REPORT command', () => {
         expect(response.Message).toEqual(`Output: ${robot.x},${robot.y},${robot.direction}`)
     });
 
-    test('Test if the REPORT command works as expected for a un-Placed robot', () => {
+    test('Test if the REPORT command works as expected for an un-Placed robot', () => {
         let robot = new Robot(5);
         robot.placed = false;
         let response: Response = Report(robot);

@@ -4,7 +4,7 @@ import { Directions } from "../../Models/Directions";
 import { Response } from "../../Models/Response";
 
 describe('Unit Testing for Turn command', () => {
-    test('Test if the Turn command works as expected for a un-Placed robot', () => {
+    test('Test if the Turn command works as expected for an un-Placed robot', () => {
         let robot = new Robot(5);
         robot.placed = false;
         let response: Response = Turn(Directions.LEFT, robot);
