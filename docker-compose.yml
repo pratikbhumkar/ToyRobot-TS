@@ -1,0 +1,11 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  web:
+    image: pratikbhumkar/toyrobot-ts
+  #Use "build: ." If "context" i.e. path to the dockerfile is in the same folder/current folder/"."
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development-env
+    labels:
+      name: "A TypeScript variant of Pratik Bhumkar's toyrobot"
