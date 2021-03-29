@@ -5,11 +5,13 @@ export class Robot{
     y: number;
     direction: string;
     placed: boolean;
+    size: number;
 
-    constructor(){
+    constructor(size: number){
         this.x = 0;
         this.y = 0;
         this.direction = Directions.NORTH;
         this.placed = false;
+        this.size = size;
     }
 }

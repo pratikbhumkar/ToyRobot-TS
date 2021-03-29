@@ -4,7 +4,7 @@ import { Response } from "../Models/Response";
 export function Place(x:number, y:number, direction:string, robot:Robot): Response {
     x = Number(x)
     y = Number(y)
-    if (x < 5 && x > -1 && y < 5 && y > -1) {
+    if (x < robot.size && x > -1 && y < robot.size && y > -1) {
         robot.x = x;
         robot.y = y;
         robot.direction = direction;

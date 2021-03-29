@@ -16,6 +16,6 @@ export function Move (robot: Robot): Response {
         return MoveWest(robot);
     }
   } else {
-    return new Response(false, "You need to place before you move.")
+    return new Response(false, "You need to place before you Move.")
   }
 };

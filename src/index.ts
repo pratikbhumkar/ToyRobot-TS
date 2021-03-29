@@ -1,7 +1,8 @@
 import { ParseCommand } from './Commands/CommandParser';
 import { Robot } from "./Models/Robot";
 
-let robot = new Robot();
+//Change size as per requirements
+let robot = new Robot(5);
 const readline = require('readline')
 	.createInterface({
 		input: process.stdin,

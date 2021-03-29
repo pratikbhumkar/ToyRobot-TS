@@ -40,13 +40,15 @@ export function ParseCommand(command:any, robot:Robot): void {
     }
 }
 
-function displayErrorMessage(response: Response): void{
+export function displayErrorMessage(response: Response): string{
     if (!response.Success) {
         console.log(response.Message)
+        return response.Message
     }
+    return ""
 }
 
-function identifyCommand(command: string):string|boolean {
+export function identifyCommand(command: string):string|boolean {
     if (/^MOVE$/.test(command)) {
         return Commands.MOVE;
     } else if (/^REPORT$/.test(command)) {

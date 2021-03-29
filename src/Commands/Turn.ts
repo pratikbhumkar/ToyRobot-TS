@@ -6,10 +6,11 @@ export function Turn(direction:string, robot: Robot): Response {
     if (robot.placed) {
         let directions = Object.keys(Directions);
         let currentDirectionIndex = directions.indexOf(robot.direction);
+        let sizeLimit = (robot.size - 1)
         if (direction === Directions.LEFT) {
-            currentDirectionIndex = (currentDirectionIndex + 1) % 4;
+            currentDirectionIndex = (currentDirectionIndex + 1) % sizeLimit;
         } else {
-            currentDirectionIndex = (currentDirectionIndex - 1 + 4) % 4;
+            currentDirectionIndex = (currentDirectionIndex - 1 + sizeLimit) % sizeLimit;
         }
         robot.direction = directions[currentDirectionIndex];
         return new Response(true, "")
