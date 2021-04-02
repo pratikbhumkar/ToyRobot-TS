@@ -8,7 +8,7 @@ COPY package*.json ./
 RUN yarn install
 COPY . .
 
-CMD ["npm", "start"]
+CMD ["npm", "test"]
 
 #Production deployment begins here 
 FROM development-env AS production-env
@@ -21,4 +21,4 @@ RUN yarn install
 
 COPY . .
 
-CMD ["npm", "start"]
+CMD ["npm", "test"]
