@@ -85,4 +85,7 @@ Expected output
 ## How to run?
  - Use npm start and do not forget to enjoy!.
  - If you want to run the test cases, please make sure you install all the dev dependencies by using <span style="font-size:larger;">`npm install --only=dev`</span>
+ - The solution has a CI/CD pipeline designed where the code is pushed to a Docker repository.
+ - Please run docker-compose up to run all the test cases.
+ - To run the simulator, please use the command <span style="font-size:larger;">`npm start`</span>.
  - To run the test cases, please use the command <span style="font-size:larger;">`npm run test`</span>.
