@@ -1,5 +1,5 @@
 # A TypeScript version of ToyRobot.
-# Pratik Bhumkar's ToyRobot in JavaScript
+# Pratik Bhumkar's ToyRobot in TypeScript
 ## Constraints
  - This Robot is very sensitive about the commands you use, it wont accept commands in small case, as it wants to feel important.
  - It will only accept commands once placed and reject otherwise, even if they are correct.
