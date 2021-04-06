@@ -5,12 +5,13 @@
  - It will only accept commands once placed and reject otherwise, even if they are correct.
  ## Description
 - The application is a simulation of a toy robot moving on a square tabletop,
-  of dimensions 5 units x 5 units.
+  of dimensions 5 units x 5 units (Is passed as an parameter and can be changed).
 - There are no other obstructions on the table surface.
 - The robot is free to roam around the surface of the table, but must be
   prevented from falling to destruction. Any movement that would result in the
   robot falling from the table must be prevented, however further valid
   movement commands must still be allowed.
+- A CI/CD pipeline is set up with Docker on my docker repo, with each push the code is merged and maintained in my repo.
 
 Create an application that can read in commands of the following (textual) form:
 
@@ -86,6 +87,7 @@ Expected output
  - Use npm start and do not forget to enjoy!.
  - If you want to run the test cases, please make sure you install all the dev dependencies by using <span style="font-size:larger;">`npm install --only=dev`</span>
  - The solution has a CI/CD pipeline designed where the code is pushed to a Docker repository.
- - Please run docker-compose up to run all the test cases.
+ - 
  - To run the simulator, please use the command <span style="font-size:larger;">`npm start`</span>.
  - To run the test cases, please use the command <span style="font-size:larger;">`npm run test`</span>.
+ - Please run to run all the test cases via docker, please use the command <span style="font-size:larger;">`docker-compose up`</span>.
