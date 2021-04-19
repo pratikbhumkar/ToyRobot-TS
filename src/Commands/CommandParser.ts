@@ -1,6 +1,5 @@
-import { Place, Report, Turn, Move } from "./index";
+import { Place, Report, ITurn, TurnLeft, TurnRight, Move } from "./index";
 import { Commands } from "../Models/Commands";
-import { Directions } from "../Models/Directions";
 import { Robot } from "../Models/Robot";
 import { Response } from "../Models/Response";
 import { displayErrorMessage } from "../DisplayMessage";
@@ -21,12 +20,14 @@ export function ParseCommand(command:string, robot:Robot): void {
             break;
 
         case Commands.LEFT:
-            let turnLeftResponse:Response = Turn(Directions.LEFT, robot)
+            let turnLeft: ITurn = new TurnLeft();
+            let turnLeftResponse:Response = turnLeft.turn(robot)
             displayErrorMessage(turnLeftResponse)
             break;
 
         case Commands.RIGHT:
-            let turnRightResponse:Response = Turn(Directions.RIGHT, robot)
+            let turnRight: ITurn = new TurnRight();
+            let turnRightResponse:Response = turnRight.turn(robot);
             displayErrorMessage(turnRightResponse)
             break;
 
