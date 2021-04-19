@@ -10,7 +10,7 @@ export function ParseCommand(command:any, robot:Robot): void {
         case Commands.PLACE:
             let placeCoordinates = command.match(/(\d[\d\.]*)/g)
             let placeDirection = command.match(/(NORTH$|SOUTH$|EAST$|WEST$)/g)
-            let outcome = Place(placeCoordinates[0], placeCoordinates[1], placeDirection[0], robot)
+            let outcome:Response = Place(Number(placeCoordinates[0]), Number(placeCoordinates[1]), placeDirection[0], robot)
             displayErrorMessage(outcome)
             break;
             

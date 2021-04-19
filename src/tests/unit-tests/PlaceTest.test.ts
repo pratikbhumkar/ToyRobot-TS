@@ -19,4 +19,20 @@ describe('Unit Testing for Place command.', () => {
         expect(response.Success).toBeFalsy();
         expect(response.Message).toEqual("Cannot place outside the table");
     });
+    test('Test if the Place command can be run multiple times to place the robot', () => {
+        let robot = new Robot(5);
+        let response: Response = Place(2, 2, Directions.EAST, robot);
+        expect(response.Success).toBeTruthy();
+        expect(robot.x).toEqual(2);
+        expect(robot.y).toEqual(2);
+        expect(robot.placed).toBeTruthy();
+        expect(robot.direction).toEqual(Directions.EAST);
+
+        response = Place(3, 3, Directions.EAST, robot);
+        expect(response.Success).toBeTruthy();
+        expect(robot.x).toEqual(3);
+        expect(robot.y).toEqual(3);
+        expect(robot.placed).toBeTruthy();
+        expect(robot.direction).toEqual(Directions.EAST);
+    });
 })
