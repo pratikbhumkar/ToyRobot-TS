@@ -1,4 +1,5 @@
-import { displayErrorMessage, identifyCommand } from "../../Commands/CommandParser";
+import { identifyCommand } from "../../Commands/CommandParser";
+import { displayErrorMessage } from "../../DisplayMessage";
 import { Response } from "../../Models/Response";
 import { Commands } from "../../Models/Commands";
 

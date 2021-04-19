@@ -4,8 +4,8 @@ import {MoveEast, MoveNorth, MoveSouth, MoveWest} from "./index"
 import { Response } from "../../Models/Response";
 
 export function Move (robot: Robot): Response {
-  if (robot.placed) {
-    switch (robot.direction) {
+  if (robot.getPlaced()) {
+    switch (robot.getDirection()) {
       case Directions.NORTH:
         return MoveNorth(robot);
       case Directions.SOUTH:

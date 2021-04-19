@@ -8,10 +8,10 @@ describe('Unit Testing for Place command.', () => {
         let robot = new Robot(5);
         let response: Response = Place(4, 4, Directions.EAST, robot);
         expect(response.Success).toBeTruthy();
-        expect(robot.x).toEqual(4);
-        expect(robot.y).toEqual(4);
-        expect(robot.placed).toBeTruthy();
-        expect(robot.direction).toEqual(Directions.EAST);
+        expect(robot.getX()).toEqual(4);
+        expect(robot.getY()).toEqual(4);
+        expect(robot.getPlaced()).toBeTruthy();
+        expect(robot.getDirection()).toEqual(Directions.EAST);
     });
     test('Test if the Place command prevents placing outside', () => {
         let robot = new Robot(5);
@@ -23,16 +23,16 @@ describe('Unit Testing for Place command.', () => {
         let robot = new Robot(5);
         let response: Response = Place(2, 2, Directions.EAST, robot);
         expect(response.Success).toBeTruthy();
-        expect(robot.x).toEqual(2);
-        expect(robot.y).toEqual(2);
-        expect(robot.placed).toBeTruthy();
-        expect(robot.direction).toEqual(Directions.EAST);
+        expect(robot.getX()).toEqual(2);
+        expect(robot.getY()).toEqual(2);
+        expect(robot.getPlaced()).toBeTruthy();
+        expect(robot.getDirection()).toEqual(Directions.EAST);
 
         response = Place(3, 3, Directions.EAST, robot);
         expect(response.Success).toBeTruthy();
-        expect(robot.x).toEqual(3);
-        expect(robot.y).toEqual(3);
-        expect(robot.placed).toBeTruthy();
-        expect(robot.direction).toEqual(Directions.EAST);
+        expect(robot.getX()).toEqual(3);
+        expect(robot.getY()).toEqual(3);
+        expect(robot.getPlaced()).toBeTruthy();
+        expect(robot.getDirection()).toEqual(Directions.EAST);
     });
 })

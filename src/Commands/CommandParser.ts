@@ -3,8 +3,9 @@ import { Commands } from "../Models/Commands";
 import { Directions } from "../Models/Directions";
 import { Robot } from "../Models/Robot";
 import { Response } from "../Models/Response";
+import { displayErrorMessage } from "../DisplayMessage";
 
-export function ParseCommand(command:any, robot:Robot): void {
+export function ParseCommand(command:string, robot:Robot): void {
     let identifiedCommand: string|boolean = identifyCommand(command);
     switch (identifiedCommand) {
         case Commands.PLACE:
@@ -38,14 +39,6 @@ export function ParseCommand(command:any, robot:Robot): void {
             console.log('Invalid Command')
             break;
     }
-}
-
-export function displayErrorMessage(response: Response): string{
-    if (!response.Success) {
-        console.log(response.Message)
-        return response.Message
-    }
-    return ""
 }
 
 export function identifyCommand(command: string):string|boolean {

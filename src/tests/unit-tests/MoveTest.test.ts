@@ -12,13 +12,13 @@ describe('Unit Testing for Move command', () => {
     })
     test('Test if the Move command works as expected for a Placed robot', () => {
         let robot = new Robot(5);
-        robot.placed = true;
-        robot.direction = Directions.NORTH;
-        robot.x = 0;
-        robot.y = 0;
+        robot.setPlaced(true);
+        robot.setDirection(Directions.NORTH);
+        robot.setX(0);
+        robot.setY(0);
         let response: Response = Move(robot);
         expect(response.Success).toBeTruthy();
-        expect(robot.y).toEqual(1);
-        expect(robot.x).toEqual(0);
+        expect(robot.getY()).toEqual(1);
+        expect(robot.getX()).toEqual(0);
     })
 })
