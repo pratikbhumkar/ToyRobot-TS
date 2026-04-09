@@ -4,8 +4,8 @@ import { Response } from "../Models/Response";
 
 const FACINGS = Object.values(Directions);
 
-function facingsIndex(facing: string): number {
-    return FACINGS.indexOf(facing as Directions);
+function facingsIndex(facing: Directions): number {
+    return FACINGS.indexOf(facing);
 }
 
 export interface ITurn {

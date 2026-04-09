@@ -25,8 +25,7 @@ describe("Report", () => {
         expect(response.Message).toEqual(
             `Output: ${robot.getX()},${robot.getY()},${robot.getDirection()}`
         );
-        expect(logSpy).toHaveBeenCalledTimes(1);
-        expect(logSpy).toHaveBeenCalledWith("Output: 0,0,NORTH");
+        expect(logSpy).not.toHaveBeenCalled();
     });
 
     test("returns failure when the robot has not been placed", () => {

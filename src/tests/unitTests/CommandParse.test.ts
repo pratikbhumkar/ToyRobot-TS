@@ -1,5 +1,6 @@
-import { identifyCommand } from "../../Commands/CommandParser";
-import { displayErrorMessage } from "../../DisplayMessage";
+import { identifyCommand } from "../../Commands/parsing/identifyCommand";
+import { parsePlaceArgs } from "../../Commands/parsing/parsePlaceArgs";
+import { displayErrorMessage, presentResponse } from "../../DisplayMessage";
 import { Response } from "../../Models/Response";
 import { Commands } from "../../Models/Commands";
 
@@ -26,6 +27,20 @@ describe("displayErrorMessage", () => {
         const returnMessage = displayErrorMessage(response);
         expect(returnMessage).toEqual("");
         expect(logSpy).not.toHaveBeenCalled();
+    });
+
+    test("presentResponse handles unknown command identity without logging success output", () => {
+        const response = new Response(true, "Output: 1,2,NORTH");
+        const returnMessage = presentResponse(false, response);
+        expect(returnMessage).toEqual("");
+        expect(logSpy).not.toHaveBeenCalled();
+    });
+
+    test("presentResponse logs successful REPORT output when command identity is REPORT", () => {
+        const response = new Response(true, "Output: 1,2,NORTH");
+        const returnMessage = presentResponse(Commands.REPORT, response);
+        expect(returnMessage).toEqual("Output: 1,2,NORTH");
+        expect(logSpy).toHaveBeenCalledWith("Output: 1,2,NORTH");
     });
 });
 
@@ -62,5 +77,14 @@ describe("identifyCommand", () => {
         test("rejects fully lowercase PLACE line", () => {
             expect(identifyCommand("place 0,0,north")).toBeFalsy();
         });
+    });
+
+    test("PLACE classification stays aligned with PLACE argument parser", () => {
+        const validPlace = "PLACE 0,0,NORTH";
+        const invalidPlace = "PLACE 0,";
+        expect(identifyCommand(validPlace)).toEqual(Commands.PLACE);
+        expect(parsePlaceArgs(validPlace)).not.toBeNull();
+        expect(identifyCommand(invalidPlace)).toBeFalsy();
+        expect(parsePlaceArgs(invalidPlace)).toBeNull();
     });
 });

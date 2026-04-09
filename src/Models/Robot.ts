@@ -3,7 +3,7 @@ import { Directions } from "./Directions";
 export type RobotState = Readonly<{
     x: number;
     y: number;
-    direction: string;
+    direction: Directions;
     placed: boolean;
     size: number;
 }>;
@@ -11,7 +11,7 @@ export type RobotState = Readonly<{
 export class Robot {
     x: number;
     y: number;
-    direction: string;
+    direction: Directions;
     placed: boolean;
     size: number;
 
@@ -63,10 +63,10 @@ export class Robot {
     setY(y: number): void {
         this.y = y;
     }
-    getDirection(): string {
+    getDirection(): Directions {
         return this.direction;
     }
-    setDirection(direction: string): void {
+    setDirection(direction: Directions): void {
         this.direction = direction;
     }
     getPlaced(): boolean {

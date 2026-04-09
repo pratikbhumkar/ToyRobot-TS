@@ -64,7 +64,7 @@ describe("MOVE immutability", () => {
         const input: RobotState = {
             x: 0,
             y: 0,
-            direction: "UNKNOWN",
+            direction: "UNKNOWN" as unknown as Directions,
             placed: true,
             size: 5
         };

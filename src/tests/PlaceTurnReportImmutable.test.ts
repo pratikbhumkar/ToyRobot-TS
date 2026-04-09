@@ -46,7 +46,6 @@ describe("PLACE/TURN/REPORT immutability", () => {
     });
 
     test("report preserves state and returns output message", () => {
-        const logSpy = jest.spyOn(console, "log").mockImplementation(() => {});
         const input: RobotState = {
             x: 1,
             y: 1,
@@ -60,7 +59,5 @@ describe("PLACE/TURN/REPORT immutability", () => {
         expect(result.state).toEqual(input);
         expect(result.response.Success).toBe(true);
         expect(result.response.Message).toBe("Output: 1,1,SOUTH");
-        expect(logSpy).toHaveBeenCalledWith("Output: 1,1,SOUTH");
-        logSpy.mockRestore();
     });
 });

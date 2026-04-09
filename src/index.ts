@@ -1,5 +1,7 @@
 import { ParseCommand } from './Commands/CommandParser';
+import { identifyCommand } from "./Commands/parsing/identifyCommand";
 import { Robot } from "./Models/Robot";
+import { presentResponse } from "./DisplayMessage";
 import * as readline from 'readline'
 
 //Change size as per requirements
@@ -19,7 +21,9 @@ function handleInput(line: string): void {
 		rl.prompt();
 		return;
 	}
-	robot = ParseCommand(trimmed, robot);
+	const result = ParseCommand(trimmed, robot);
+	presentResponse(identifyCommand(trimmed), result.response);
+	robot = Robot.fromState(result.state);
 	rl.prompt();
 }
 
