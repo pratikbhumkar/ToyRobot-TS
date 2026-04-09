@@ -1,29 +1,35 @@
 import { Directions } from "../../Models/Directions";
-import { Robot } from "../../Models/Robot";
-import {MoveEast, MoveNorth, MoveSouth, MoveWest} from "./index"
+import { Robot, RobotState } from "../../Models/Robot";
 import { Response } from "../../Models/Response";
+import { MoveEast, MoveNorth, MoveSouth, MoveWest } from "./index";
+
+export type TransitionResult = { state: RobotState; response: Response };
 
 export interface IMove {
-  move(robot: Robot):Response
+  move(state: RobotState): TransitionResult
 }
 
-export function Move (robot: Robot): Response {
-  if (robot.getPlaced()) {
-    switch (robot.getDirection()) {
-      case Directions.NORTH:
-        var moveNorth:IMove = new MoveNorth();
-        return moveNorth.move(robot);
-      case Directions.SOUTH:
-        var moveSouth:IMove = new MoveSouth();
-        return moveSouth.move(robot);
-      case Directions.EAST:
-        var moveEast:IMove = new MoveEast();
-        return moveEast.move(robot);
-      case Directions.WEST:
-        var moveWest:IMove = new MoveWest();
-        return moveWest.move(robot);
-    }
-  } else {
-    return new Response(false, "You need to place before you Move.")
+export function move(state: RobotState): TransitionResult {
+  if (!state.placed) {
+    return { state, response: new Response(false, "You need to place before you Move.") };
   }
-};
+
+  switch (state.direction) {
+      case Directions.NORTH:
+        return new MoveNorth().move(state);
+      case Directions.SOUTH:
+        return new MoveSouth().move(state);
+      case Directions.EAST:
+        return new MoveEast().move(state);
+      case Directions.WEST:
+        return new MoveWest().move(state);
+      default:
+        return { state, response: new Response(false, "Invalid direction") };
+  }
+}
+
+export function Move(robot: Robot): Response {
+  const result = move(robot.toState());
+  robot.applyState(result.state);
+  return result.response;
+}
