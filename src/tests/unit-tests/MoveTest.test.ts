@@ -3,14 +3,14 @@ import { Robot } from "../../Models/Robot";
 import { Directions } from "../../Models/Directions";
 import { Response } from "../../Models/Response";
 
-describe('Unit Testing for Move command', () => {
-    test('Test if the Move command throws error for an un-Placed robot', () => {
+describe("Move", () => {
+    test("returns failure when the robot has not been placed", () => {
         const robot = new Robot(5);
         const response: Response = Move(robot);
         expect(response.Success).toBeFalsy();
         expect(response.Message).toEqual("You need to place before you Move.");
-    })
-    test('Test if the Move command works as expected for a Placed robot', () => {
+    });
+    test("moves one step according to facing when the robot is placed", () => {
         const robot = new Robot(5);
         robot.setPlaced(true);
         robot.setDirection(Directions.NORTH);
@@ -20,5 +20,5 @@ describe('Unit Testing for Move command', () => {
         expect(response.Success).toBeTruthy();
         expect(robot.getY()).toEqual(1);
         expect(robot.getX()).toEqual(0);
-    })
-})
+    });
+});

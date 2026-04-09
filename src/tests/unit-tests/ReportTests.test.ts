@@ -3,8 +3,18 @@ import { Robot } from "../../Models/Robot";
 import { Directions } from "../../Models/Directions";
 import { Response } from "../../Models/Response";
 
-describe('Unit Testing for REPORT command', () => {
-    test('Test if the REPORT command works as expected for an Placed robot', () => {
+describe("Report", () => {
+    let logSpy: jest.SpiedFunction<typeof console.log>;
+
+    beforeEach(() => {
+        logSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+        logSpy.mockRestore();
+    });
+
+    test("returns output with position and facing when the robot is placed", () => {
         const robot = new Robot(5);
         robot.setPlaced(true);
         robot.setX(0);
@@ -12,14 +22,19 @@ describe('Unit Testing for REPORT command', () => {
         robot.setDirection(Directions.NORTH);
         const response: Response = Report(robot);
         expect(response.Success).toBeTruthy();
-        expect(response.Message).toEqual(`Output: ${robot.getX()},${robot.getY()},${robot.getDirection()}`)
+        expect(response.Message).toEqual(
+            `Output: ${robot.getX()},${robot.getY()},${robot.getDirection()}`
+        );
+        expect(logSpy).toHaveBeenCalledTimes(1);
+        expect(logSpy).toHaveBeenCalledWith("Output: 0,0,NORTH");
     });
 
-    test('Test if the REPORT command works as expected for an un-Placed robot', () => {
+    test("returns failure when the robot has not been placed", () => {
         const robot = new Robot(5);
         robot.setPlaced(false);
         const response: Response = Report(robot);
         expect(response.Success).toBeFalsy();
-        expect(response.Message).toEqual(`You need to place before you Report.`)
+        expect(response.Message).toEqual("You need to place before you Report.");
+        expect(logSpy).not.toHaveBeenCalled();
     });
-})
+});

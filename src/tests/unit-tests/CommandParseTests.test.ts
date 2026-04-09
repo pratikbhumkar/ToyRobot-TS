@@ -3,65 +3,64 @@ import { displayErrorMessage } from "../../DisplayMessage";
 import { Response } from "../../Models/Response";
 import { Commands } from "../../Models/Commands";
 
-describe('Unit Testing for displayErrorMessage method', () => {
-    test('Test if the displayErrorMessage when the command doesnt run successfully.', () => {
+describe("displayErrorMessage", () => {
+    let logSpy: jest.SpiedFunction<typeof console.log>;
+
+    beforeEach(() => {
+        logSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+        logSpy.mockRestore();
+    });
+
+    test("returns the message when the response is unsuccessful", () => {
         const response = new Response(false, "Error");
         const returnMessage = displayErrorMessage(response);
-        expect(returnMessage).toEqual(returnMessage);
+        expect(returnMessage).toEqual("Error");
+        expect(logSpy).toHaveBeenCalledTimes(1);
+        expect(logSpy).toHaveBeenCalledWith("Error");
     });
-    test('Test if the displayErrorMessage when the command does run successfully.', () => {
+    test("returns an empty string when the response is successful", () => {
         const response = new Response(true, "Message");
         const returnMessage = displayErrorMessage(response);
         expect(returnMessage).toEqual("");
+        expect(logSpy).not.toHaveBeenCalled();
     });
-})
+});
 
-describe('Unit Testing for displayErrorMessage method', () => {
-    test('Test if the displayErrorMessage parses REPORT command.', () => {
-        const returnMessage = identifyCommand("REPORT");
-        expect(returnMessage).toEqual(Commands.REPORT);
+describe("identifyCommand", () => {
+    test("recognizes REPORT", () => {
+        expect(identifyCommand("REPORT")).toEqual(Commands.REPORT);
     });
-    test('Test if the displayErrorMessage parses LEFT command.', () => {
-        const returnMessage = identifyCommand("LEFT");
-        expect(returnMessage).toEqual(Commands.LEFT);
+    test("recognizes LEFT", () => {
+        expect(identifyCommand("LEFT")).toEqual(Commands.LEFT);
     });
-    test('Test if the displayErrorMessage parses RIGHT command.', () => {
-        const returnMessage = identifyCommand("RIGHT");
-        expect(returnMessage).toEqual(Commands.RIGHT);
+    test("recognizes RIGHT", () => {
+        expect(identifyCommand("RIGHT")).toEqual(Commands.RIGHT);
     });
-    test('Test if the displayErrorMessage parses MOVE command.', () => {
-        const returnMessage = identifyCommand("MOVE");
-        expect(returnMessage).toEqual(Commands.MOVE);
+    test("recognizes MOVE", () => {
+        expect(identifyCommand("MOVE")).toEqual(Commands.MOVE);
     });
-    test('Test if the displayErrorMessage parses PLACE command.', () => {
-        const returnMessage = identifyCommand("PLACE 0,0,NORTH");
-        expect(returnMessage).toEqual(Commands.PLACE);
+    test("recognizes a valid PLACE line", () => {
+        expect(identifyCommand("PLACE 0,0,NORTH")).toEqual(Commands.PLACE);
     });
-    test('Test if the displayErrorMessage parses PLACE command.', () => {
-        const returnMessage = identifyCommand("PLACE 0,");
-        expect(returnMessage).toBeFalsy();
+    test("rejects PLACE with only a trailing comma after coordinates", () => {
+        expect(identifyCommand("PLACE 0,")).toBeFalsy();
     });
-})
 
-describe('Unit Testing for displayErrorMessage - PLACE command method correctly.', () => {
-    test('Test if the displayErrorMessage parses incompconste PLACE command correctly.', () => {
-        const returnMessage = identifyCommand("PLACE");
-        expect(returnMessage).toBeFalsy();
+    describe("PLACE edge cases", () => {
+        test("rejects PLACE with keyword only", () => {
+            expect(identifyCommand("PLACE")).toBeFalsy();
+        });
+        test("rejects PLACE with a single coordinate", () => {
+            expect(identifyCommand("PLACE 0")).toBeFalsy();
+        });
+        test("rejects mixed-case place (wrong casing)", () => {
+            expect(identifyCommand("place 0,0")).toBeFalsy();
+        });
+        test("rejects fully lowercase PLACE line", () => {
+            expect(identifyCommand("place 0,0,north")).toBeFalsy();
+        });
     });
-    test('Test if the displayErrorMessage parses incompconste PLACE command correctly.', () => {
-        const returnMessage = identifyCommand("PLACE 0");
-        expect(returnMessage).toBeFalsy();
-    });
-    test('Test if the displayErrorMessage parses incorrect PLACE command correctly.', () => {
-        const returnMessage = identifyCommand("place 0,0");
-        expect(returnMessage).toBeFalsy();
-    });
-    test('Test if the displayErrorMessage parses incorrect PLACE - (in small caps) command correctly.', () => {
-        const returnMessage = identifyCommand("place 0,0,north");
-        expect(returnMessage).toBeFalsy();
-    });
-    test('Test if the displayErrorMessage parses PLACE command correctly.', () => {
-        const returnMessage = identifyCommand("PLACE 0,0,NORTH");
-        expect(returnMessage).toEqual(Commands.PLACE);
-    });
-})
+});

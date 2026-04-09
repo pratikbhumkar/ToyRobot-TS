@@ -2,7 +2,7 @@ import { Robot } from "../Models/Robot";
 import { Response } from "../Models/Response";
 
 export function Place(x: number, y: number, direction: string, robot: Robot): Response {
-    var size:number = robot.getSize()
+    let size:number = robot.getSize()
     if (x < size && x > -1 && y < size && y > -1) {
         robot.setPlaced(true);
         robot.setX(x);

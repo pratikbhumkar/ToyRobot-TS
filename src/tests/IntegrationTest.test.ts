@@ -1,22 +1,21 @@
-import { ParseCommand } from '../Commands/CommandParser';
+import { ParseCommand } from "../Commands/CommandParser";
 import { Robot } from "../Models/Robot";
 import { Directions } from "../Models/Directions";
 
-
-describe('Integration Testing ', () => {
-    test('Testing if the robot is placed on Place command', () => {
+describe("Integration", () => {
+    test("PLACE sets position, facing, and placed flag via the parser", () => {
         const robot = new Robot(5);
         ParseCommand("PLACE 0,0,NORTH", robot);
         expect(robot.getX()).toEqual(0);
         expect(robot.getY()).toEqual(0);
-        expect(robot.getPlaced()).toEqual(true);
+        expect(robot.getPlaced()).toBe(true);
         expect(robot.getSize()).toEqual(5);
         expect(robot.getDirection()).toEqual(Directions.NORTH);
     });
-    test('Testing if REPORT command can be run before PLACE', () => {
+    test("REPORT before PLACE leaves the robot unplaced", () => {
         const robot = new Robot(5);
         ParseCommand("REPORT", robot);
-        expect(robot.getPlaced()).toEqual(false);
+        expect(robot.getPlaced()).toBe(false);
         expect(robot.getSize()).toEqual(5);
     });
-})
+});
