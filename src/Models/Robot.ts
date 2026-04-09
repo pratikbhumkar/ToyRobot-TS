@@ -1,3 +1,5 @@
+import { Directions } from "./Directions";
+
 export class Robot {
     x: number;
     y: number;
@@ -10,6 +12,7 @@ export class Robot {
         this.y = 0;
         this.placed = false;
         this.size = size;
+        this.direction = Directions.NORTH;
     }
 
     getX(): number {

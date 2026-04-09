@@ -11,17 +11,19 @@ export function Move (robot: Robot): Response {
   if (robot.getPlaced()) {
     switch (robot.getDirection()) {
       case Directions.NORTH:
-        var moveNorth:IMove = new MoveNorth();
+        const moveNorth:IMove = new MoveNorth();
         return moveNorth.move(robot);
       case Directions.SOUTH:
-        var moveSouth:IMove = new MoveSouth();
+        const moveSouth:IMove = new MoveSouth();
         return moveSouth.move(robot);
       case Directions.EAST:
-        var moveEast:IMove = new MoveEast();
+        const moveEast:IMove = new MoveEast();
         return moveEast.move(robot);
       case Directions.WEST:
-        var moveWest:IMove = new MoveWest();
+        const moveWest:IMove = new MoveWest();
         return moveWest.move(robot);
+      default:
+        return new Response(false, "Invalid direction")
     }
   } else {
     return new Response(false, "You need to place before you Move.")

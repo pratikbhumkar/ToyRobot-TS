@@ -9,9 +9,9 @@ export interface ITurn {
 export class TurnLeft implements ITurn {
     turn(robot: Robot): Response {
         if (robot.getPlaced()) {
-            let directions = Object.keys(Directions);
+            const directions = Object.keys(Directions);
             let currentDirectionIndex = directions.indexOf(robot.getDirection());
-            let sizeLimit = (robot.getSize() - 1)
+            const sizeLimit = (robot.getSize() - 1)
             currentDirectionIndex = (currentDirectionIndex + 1) % sizeLimit;
             robot.setDirection(directions[currentDirectionIndex]);
             return new Response(true, "")
@@ -24,9 +24,9 @@ export class TurnLeft implements ITurn {
 export class TurnRight implements ITurn {
     turn(robot: Robot): Response {
         if (robot.getPlaced()) {
-            let directions = Object.keys(Directions);
+            const directions = Object.keys(Directions);
             let currentDirectionIndex = directions.indexOf(robot.getDirection());
-            let sizeLimit = (robot.getSize() - 1)
+            const sizeLimit = (robot.getSize() - 1)
             currentDirectionIndex = (currentDirectionIndex - 1 + sizeLimit) % sizeLimit;
             robot.setDirection(directions[currentDirectionIndex]);
             return new Response(true, "")

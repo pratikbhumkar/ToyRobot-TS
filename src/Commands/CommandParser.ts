@@ -5,34 +5,36 @@ import { Response } from "../Models/Response";
 import { displayErrorMessage } from "../DisplayMessage";
 
 export function ParseCommand(command:string, robot:Robot): void {
-    let identifiedCommand: string|boolean = identifyCommand(command);
+    const identifiedCommand: string|boolean = identifyCommand(command);
     switch (identifiedCommand) {
         case Commands.PLACE:
-            let placeCoordinates = command.match(/(\d[\d\.]*)/g)
-            let placeDirection = command.match(/(NORTH$|SOUTH$|EAST$|WEST$)/g)
-            let outcome:Response = Place(Number(placeCoordinates[0]), Number(placeCoordinates[1]), placeDirection[0], robot)
-            displayErrorMessage(outcome)
+            const placeCoordinates = command.match(/(\d[\d\.]*)/g)
+            const placeDirection = command.match(/(NORTH$|SOUTH$|EAST$|WEST$)/g)
+            if (placeCoordinates && placeCoordinates.length == 2 && placeDirection && placeDirection.length == 1) {
+                const outcome:Response = Place(Number(placeCoordinates[0]), Number(placeCoordinates[1]), placeDirection[0], robot)                
+                displayErrorMessage(outcome)
+            }
             break;
             
         case Commands.MOVE:
-            let moveResponse:Response = Move(robot)
+            const moveResponse:Response = Move(robot)
             displayErrorMessage(moveResponse)
             break;
 
         case Commands.LEFT:
-            let turnLeft: ITurn = new TurnLeft();
-            let turnLeftResponse:Response = turnLeft.turn(robot)
+            const turnLeft: ITurn = new TurnLeft();
+            const turnLeftResponse:Response = turnLeft.turn(robot)
             displayErrorMessage(turnLeftResponse)
             break;
 
         case Commands.RIGHT:
-            let turnRight: ITurn = new TurnRight();
-            let turnRightResponse:Response = turnRight.turn(robot);
+            const turnRight: ITurn = new TurnRight();
+            const turnRightResponse:Response = turnRight.turn(robot);
             displayErrorMessage(turnRightResponse)
             break;
 
         case Commands.REPORT:
-            let reportResponse:Response = Report(robot)
+            const reportResponse:Response = Report(robot)
             displayErrorMessage(reportResponse)
             break;
 
