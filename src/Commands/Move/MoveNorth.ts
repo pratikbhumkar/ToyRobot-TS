@@ -1,15 +1,12 @@
-import { Robot } from "../../Models/Robot";
+import { RobotState } from "../../Models/Robot";
 import { Response } from "../../Models/Response";
 import { IMove } from "./Move";
 
 export class MoveNorth implements IMove {
-    move(robot: Robot):Response{
-        let y:number= robot.getY()
-            if (y < (robot.getSize() - 1)) {
-                robot.setY(y + 1);
-                return new Response(true, "Success");
-            } else {
-                return new Response(false, "Cannot move outside the table");
-            }
+    move(state: RobotState) {
+        if (state.y < state.size - 1) {
+            return { state: { ...state, y: state.y + 1 }, response: new Response(true, "Success") };
+        }
+        return { state, response: new Response(false, "Cannot move outside the table") };
     }
 }

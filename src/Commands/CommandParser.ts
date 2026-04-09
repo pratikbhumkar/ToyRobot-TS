@@ -1,47 +1,51 @@
-import { Place, Report, ITurn, TurnLeft, TurnRight, Move } from "./index";
+import { move, TransitionResult } from "./Move/Move";
+import { place } from "./Place";
+import { report } from "./Report";
+import { ITurn, TurnLeft, TurnRight } from "./Turn";
 import { Commands } from "../Models/Commands";
-import { Robot } from "../Models/Robot";
+import { Robot, RobotState } from "../Models/Robot";
 import { Response } from "../Models/Response";
 import { displayErrorMessage } from "../DisplayMessage";
 
-export function ParseCommand(command:string, robot:Robot): void {
-    const identifiedCommand: string|boolean = identifyCommand(command);
-    switch (identifiedCommand) {
-        case Commands.PLACE:
-            const placeCoordinates = command.match(/(\d[\d\.]*)/g)
-            const placeDirection = command.match(/(NORTH$|SOUTH$|EAST$|WEST$)/g)
-            if (placeCoordinates && placeCoordinates.length === 2 && placeDirection && placeDirection.length === 1) {
-                const outcome:Response = Place(Number(placeCoordinates[0]), Number(placeCoordinates[1]), placeDirection[0], robot)                
-                displayErrorMessage(outcome)
-            }
-            break;
-            
-        case Commands.MOVE:
-            const moveResponse:Response = Move(robot)
-            displayErrorMessage(moveResponse)
-            break;
+function placeTransition(command: string, state: RobotState): TransitionResult {
+    const placeCoordinates = command.match(/(\d[\d\.]*)/g);
+    const placeDirection = command.match(/(NORTH$|SOUTH$|EAST$|WEST$)/g);
 
+    if (!(placeCoordinates && placeCoordinates.length === 2 && placeDirection && placeDirection.length === 1)) {
+        return { state, response: new Response(true, "") };
+    }
+
+    const x = Number(placeCoordinates[0]);
+    const y = Number(placeCoordinates[1]);
+    const direction = placeDirection[0];
+
+    return place(state, x, y, direction);
+}
+
+function handleCommand(command: string, state: RobotState): TransitionResult {
+    switch (identifyCommand(command)) {
+        case Commands.PLACE:
+            return placeTransition(command, state);
+        case Commands.MOVE:
+            return move(state);
         case Commands.LEFT:
             const turnLeft: ITurn = new TurnLeft();
-            const turnLeftResponse:Response = turnLeft.turn(robot)
-            displayErrorMessage(turnLeftResponse)
-            break;
-
+            return turnLeft.turn(state);
         case Commands.RIGHT:
             const turnRight: ITurn = new TurnRight();
-            const turnRightResponse:Response = turnRight.turn(robot);
-            displayErrorMessage(turnRightResponse)
-            break;
-
+            return turnRight.turn(state);
         case Commands.REPORT:
-            const reportResponse:Response = Report(robot)
-            displayErrorMessage(reportResponse)
-            break;
-
+            return report(state);
         default:
-            console.log('Invalid Command')
-            break;
+            console.log("Invalid Command");
+            return { state, response: new Response(true, "") };
     }
+}
+
+export function ParseCommand(command:string, robot:Robot): Robot {
+    const transitionResult = handleCommand(command, robot.toState());
+    displayErrorMessage(transitionResult.response);
+    return Robot.fromState(transitionResult.state);
 }
 
 export function identifyCommand(command: string):string|boolean {

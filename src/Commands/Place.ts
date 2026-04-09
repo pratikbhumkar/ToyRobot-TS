@@ -1,15 +1,21 @@
-import { Robot } from "../Models/Robot";
+import { Robot, RobotState } from "../Models/Robot";
 import { Response } from "../Models/Response";
 
-export function Place(x: number, y: number, direction: string, robot: Robot): Response {
-    let size:number = robot.getSize()
+export type PlaceResult = { state: RobotState; response: Response };
+
+export function place(state: RobotState, x: number, y: number, direction: string): PlaceResult {
+    const size = state.size;
     if (x < size && x > -1 && y < size && y > -1) {
-        robot.setPlaced(true);
-        robot.setX(x);
-        robot.setY(y);
-        robot.setDirection(direction);
-        return new Response(true, "")
-    } else {
-        return new Response(false, "Cannot place outside the table")
+        return {
+            state: { ...state, x, y, direction, placed: true },
+            response: new Response(true, "")
+        };
     }
-};
+    return { state, response: new Response(false, "Cannot place outside the table") };
+}
+
+export function Place(x: number, y: number, direction: string, robot: Robot): Response {
+    const result = place(robot.toState(), x, y, direction);
+    robot.applyState(result.state);
+    return result.response;
+}

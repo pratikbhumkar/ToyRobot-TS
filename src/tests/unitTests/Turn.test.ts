@@ -1,51 +1,62 @@
 import { TurnLeft, TurnRight, ITurn } from "../../Commands/Turn";
-import { Robot } from "../../Models/Robot";
 import { Directions } from "../../Models/Directions";
-import { Response } from "../../Models/Response";
+import { RobotState } from "../../Models/Robot";
 
 describe("Turn", () => {
     test("TurnLeft returns failure when the robot has not been placed", () => {
-        const robot = new Robot(5);
-        robot.setPlaced(false);
+        const state: RobotState = {
+            x: 0,
+            y: 0,
+            direction: Directions.NORTH,
+            placed: false,
+            size: 5
+        };
         const turnLeft: ITurn = new TurnLeft();
-        const response: Response = turnLeft.turn(robot);
-        expect(response.Success).toBeFalsy();
-        expect(response.Message).toEqual("You need to place before you Turn.");
+        const result = turnLeft.turn(state);
+        expect(result.response.Success).toBeFalsy();
+        expect(result.response.Message).toEqual("You need to place before you Turn.");
     });
     test("TurnLeft rotates from NORTH to WEST when placed", () => {
-        const robot = new Robot(5);
-        robot.setPlaced(true);
-        robot.setX(0);
-        robot.setY(0);
-        robot.setDirection(Directions.NORTH);
+        const state: RobotState = {
+            x: 0,
+            y: 0,
+            direction: Directions.NORTH,
+            placed: true,
+            size: 5
+        };
         const turnLeft: ITurn = new TurnLeft();
-        const response: Response = turnLeft.turn(robot);
-        expect(response.Success).toBeTruthy();
-        expect(robot.getDirection()).toEqual(Directions.WEST);
+        const result = turnLeft.turn(state);
+        expect(result.response.Success).toBeTruthy();
+        expect(result.state.direction).toEqual(Directions.WEST);
+        expect(state.direction).toEqual(Directions.NORTH);
     });
     test("TurnRight rotates from NORTH to EAST when placed", () => {
-        const robot = new Robot(5);
-        robot.setPlaced(true);
-        robot.setX(0);
-        robot.setY(0);
-        robot.setDirection(Directions.NORTH);
+        const state: RobotState = {
+            x: 0,
+            y: 0,
+            direction: Directions.NORTH,
+            placed: true,
+            size: 5
+        };
         const turnRight: ITurn = new TurnRight();
-        const response: Response = turnRight.turn(robot);
-        expect(response.Success).toBeTruthy();
-        expect(robot.getDirection()).toEqual(Directions.EAST);
+        const result = turnRight.turn(state);
+        expect(result.response.Success).toBeTruthy();
+        expect(result.state.direction).toEqual(Directions.EAST);
     });
     test("TurnRight four times returns facing to NORTH when placed", () => {
-        const robot = new Robot(5);
-        robot.setPlaced(true);
-        robot.setX(0);
-        robot.setY(0);
-        robot.setDirection(Directions.NORTH);
+        const state: RobotState = {
+            x: 0,
+            y: 0,
+            direction: Directions.NORTH,
+            placed: true,
+            size: 5
+        };
         const turnRight: ITurn = new TurnRight();
-        let response: Response = turnRight.turn(robot);
-        response = turnRight.turn(robot);
-        response = turnRight.turn(robot);
-        response = turnRight.turn(robot);
-        expect(response.Success).toBeTruthy();
-        expect(robot.getDirection()).toEqual(Directions.NORTH);
+        let result = turnRight.turn(state);
+        result = turnRight.turn(result.state);
+        result = turnRight.turn(result.state);
+        result = turnRight.turn(result.state);
+        expect(result.response.Success).toBeTruthy();
+        expect(result.state.direction).toEqual(Directions.NORTH);
     });
 });

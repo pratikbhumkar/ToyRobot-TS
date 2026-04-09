@@ -3,7 +3,7 @@ import { Robot } from "./Models/Robot";
 import * as readline from 'readline'
 
 //Change size as per requirements
-const robot = new Robot(5);
+let robot = new Robot(5);
 const rl = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout
@@ -19,7 +19,7 @@ function handleInput(line: string): void {
 		rl.prompt();
 		return;
 	}
-	ParseCommand(trimmed, robot);
+	robot = ParseCommand(trimmed, robot);
 	rl.prompt();
 }
 
