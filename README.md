@@ -83,10 +83,43 @@ Expected output:
 Expected output
 
     3,3,NORTH
-## How to run?
- - Use npm start and do not forget to enjoy!.
- - If you want to run the test cases, please make sure you install all the dev dependencies by using <span style="font-size:larger;">`npm install --only=dev`</span>
- - The solution has a CI/CD pipeline designed where the code is pushed to a Docker repository.
- - To run the simulator, please use the command <span style="font-size:larger;">`npm start`</span>.
- - To run the test cases, please use the command <span style="font-size:larger;">`npm run test`</span>.
- - Please run to run all the test cases via docker, please use the command <span style="font-size:larger;">`docker-compose up`</span>.
+
+
+## How to run
+
+### Local (without Docker)
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Start the Toy Robot CLI:
+   ```bash
+   npm start
+   ```
+
+3. Run tests:
+   ```bash
+   npm test
+   ```
+
+4. Run tests with coverage:
+   ```bash
+   npm test -- --coverage
+   ```
+
+### Docker
+1. Build and run tests (default container command):
+   ```bash
+   docker compose up --build
+   ```
+
+2. Run the CLI app interactively:
+   ```bash
+   docker compose run --rm -it web npm start
+   ```
+
+3. Run tests only in container:
+   ```bash
+   docker compose run --rm web npm test
+   ```
